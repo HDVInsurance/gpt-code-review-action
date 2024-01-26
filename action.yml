@@ -1,0 +1,19 @@
+name: 'GPT Review'
+description: 'Submit PR Diff to GPT for Review'
+inputs:
+  github_token:
+    description: 'GitHub token. Required for posting comments to a pull request.'
+    required: true
+  openai_api_key:
+    description: 'OpenAI API key. Required if the OPENAI_API_KEY environment variable is not set.'
+    required: false
+  pr_review_prompt_template:
+    description: 'Provide a PR review prompt template to optionally override the default prompt template with your own.'
+    required: false
+    default: ''
+outputs:
+  pr_review: 
+    description: 'The PR review text.'
+runs:
+  using: 'node20'
+  main: './src/action.js'

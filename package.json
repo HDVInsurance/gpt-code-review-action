@@ -1,0 +1,22 @@
+{
+  "name": "gpt-code-review",
+  "version": "1.0.0",
+  "description": "A GitHub action that generates code review of a diff or PR request using OpenAI's ChatGPT. An OpenAI API Key is required for usage.",
+  "main": "/src/action.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "github-actions",
+    "openai",
+    "gpt",
+    "code-review"
+  ],
+  "author": "Josh Elster",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/exec": "^1.1.1",
+    "openai": "^4.25.0"
+  }
+}
