@@ -21,8 +21,8 @@ async function run() {
   try {
     const githubToken = core.getInput('github_token') || process.env.GITHUB_TOKEN;
     const openaiApiKey = core.getInput('openai_api_key') || process.env.OPENAI_API_KEY;
-    const prReviewPromptTemplate = core.getInput('pr_review_prompt_template');
-    const prReviewModel = process.env.PR_REVIEW_MODEL || 'gpt-3.5-turbo-16k';
+    const prReviewPromptTemplate = core.getInput('pr_review_prompt_template') || process.env.PR_REVIEW_PROMPT_TEMPLATE || DEFAULT_PR_REVIEW_PROMPT_TEMPLATE;
+    const prReviewModel = core.getInput('model_name') || process.env.PR_REVIEW_MODEL || 'gpt-3.5-turbo-16k';
 
     // Set environment variables
     process.env.GH_TOKEN = githubToken;

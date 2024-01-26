@@ -11,6 +11,10 @@ inputs:
     description: 'Provide a PR review prompt template to optionally override the default prompt template with your own.'
     required: false
     default: ''
+  model_name:
+    description: 'Provide a model name to optionally override the default model name with your own. Defaults to gpt-3.5-turbo-16k.'
+    required: false
+    default: 'gpt-3.5-turbo-16k'
 outputs:
   pr_review: 
     description: 'The PR review text.'
