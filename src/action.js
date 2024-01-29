@@ -1,4 +1,5 @@
 const core = require('@actions/core');
+const github = require('@actions/github');
 const exec = require('@actions/exec');
 const OpenAI = require('openai');
 
@@ -23,7 +24,7 @@ async function run() {
     const openaiApiKey = core.getInput('openai_api_key') || process.env.OPENAI_API_KEY;
     const prReviewPromptTemplate = core.getInput('pr_review_prompt_template') || process.env.PR_REVIEW_PROMPT_TEMPLATE || DEFAULT_PR_REVIEW_PROMPT_TEMPLATE;
     const prReviewModel = core.getInput('model_name') || process.env.PR_REVIEW_MODEL || 'gpt-3.5-turbo-16k';
-
+    const prNumber = github.context.payload.pull_request.number;
     // Set environment variables
     process.env.GH_TOKEN = githubToken;
 
@@ -34,7 +35,7 @@ async function run() {
 
     // Get PR diff
     let prDiff = '';
-    await exec.exec(`gh pr diff -R ${process.env.GITHUB_REPOSITORY} --patch ${process.env.GITHUB_EVENT_NUMBER}`, [], {
+    await exec.exec(`gh pr diff -R ${process.env.GITHUB_REPOSITORY} --patch ${prNumber}`, [], {
       listeners: {
         stdout: (data) => {
           prDiff += data.toString();
@@ -67,7 +68,7 @@ async function run() {
     fs.writeFileSync('pr_review.txt', response.choices[0].message.content);
 
     // Add PR review comment
-    await exec.exec(`gh pr review -R ${process.env.GITHUB_REPOSITORY} ${process.env.GITHUB_EVENT_NUMBER} -F pr_review.txt -c`);
+    await exec.exec(`gh pr review -R ${process.env.GITHUB_REPOSITORY} ${prNumber} -F pr_review.txt -c`);
     core.setOutput('pr_review', response.choices[0].message.content);
   } catch (error) {
     core.setFailed(error.message);
